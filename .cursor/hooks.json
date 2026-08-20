@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/gitea-shell-guard.sh",
+        "failClosed": false
+      }
+    ]
+  }
+}

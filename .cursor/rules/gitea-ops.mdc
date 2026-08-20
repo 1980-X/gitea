@@ -1,0 +1,35 @@
+---
+description: Gitea 本机运维硬约束（容器化、专用 nginx、端口隔离、禁擅自部署）
+alwaysApply: true
+---
+
+# Gitea 运维约束（gpu001）
+
+## 已锁定决策
+
+- **用途**：用 Gitea **管代码**（运维托管），官方镜像 `gitea/gitea`，不是本机源码构建当入口。
+- **工作区**：仅 `/home/wilber/service/gitea`。勿在 `~/project/gitea` 做本栈运维。
+- **入口**：HTTP 经 **专用 nginx**（`:18600`）；Git SSH 直连 **gitea** 容器（`:18622`，不经 nginx）。gitea HTTP/库 **不** 映射宿主机应用口。
+- **阶段 1**：本机 + 局域网。Tailscale / 公网域名 / NPM / cpolar **本阶段不做**。
+- **部署闸门**：用户未明确说「部署 / 启动 / up / 上线」时，**禁止** `compose up`、建容器、拉业务镜像跑栈。
+- **AGENTS**：根目录 `AGENTS.md` 为运维入口；开发者指南在分支 `developer-docs`。
+- **仓库**：GitHub `1980-X/gitea`（运维 `main` + 指南 `developer-docs`）；与上游源码脱钩。
+
+## 硬禁止
+
+- 宿主机安装或运行 Gitea / `go run` / `make watch` / 裸 `gitea web`。
+- 占用他项已用端口；改他项 compose / 容器名 / NPM Proxy Host。
+- 复用 soulvoix / h5pl / plantvr / helix 等库或网络。
+- `docker system prune`、对其它项目 `compose down`、未确认删数据目录。
+- 进容器手改数据库；库变更走官方迁移。
+
+## 目标栈（已部署）
+
+| 服务          | 角色           | 宿主机端口                             |
+| ------------- | -------------- | -------------------------------------- |
+| `gitea-nginx` | HTTP 入口      | `18600:80`                             |
+| `gitea`       | 应用 + Git SSH | `18622:22`（仅 SSH；HTTP 3000 不映射） |
+| `gitea-db`    | 库             | 不映射                                 |
+
+- 网络 `gitea_net`；数据 `/mnt/storage/gitea/` bind。`ROOT_URL`：`http://192.168.1.84:18600/`。Git SSH：`git@192.168.1.84:18622`。密钥只在 `.env`。
+- 涉及启停 / 端口 / nginx 时读 skill `gitea-ops`。

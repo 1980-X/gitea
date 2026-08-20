@@ -1,0 +1,13 @@
+# Secrets and local runtime
+.env
+.env.local
+*.pem
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Quarantine / backups (never commit)
+/tmp/

@@ -1,0 +1,14 @@
+---
+description: 编辑本栈 compose / nginx / env 示例时的端口与网络隔离
+globs: docker-compose*.yml,compose*.yml,nginx/**,.env.example
+alwaysApply: false
+---
+
+# Compose / nginx 编辑约束
+
+- HTTP 仅 `gitea-nginx` 映射宿主机（`:18600`）；`gitea` 可映射 **一个** Git SSH 口（`:18622→22`），**禁止**映射 gitea `3000` 或 `gitea-db` `5432`。
+- 网络名 `gitea_net`；`container_name`：`gitea-nginx`、`gitea`、`gitea-db`。
+- 数据 bind `/mnt/storage/gitea/...`，禁止只写容器可写层。
+- `ROOT_URL` 与对外访问 URL 一致（阶段 1：`http://<局域网IP>:<入口端口>/`）。
+- 密码与密钥用 `.env` 变量，不写进 compose 明文、不提交 Git。
+- 禁止 `network_mode: host`、禁止加入其它项目的外部网络。
