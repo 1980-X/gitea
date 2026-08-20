@@ -6,7 +6,7 @@
 
 ## Overview
 
-gpu001 上的 Gitea 是 **代码托管**（站点名 joy-x）。官方镜像 `docker.gitea.com/gitea:1.27.2`，HTTP 经 nginx，Git SSH 直连 gitea 容器。栈 **已部署并完成安装**（`INSTALL_LOCK=true`）。
+gpu001 上的 Gitea 是 **代码托管**（站点名 joy-x）。官方镜像 `docker.gitea.com/gitea:1.27.2`，HTTP 经 nginx，Git SSH 直连 gitea 容器。本目录仓库已与上游源码脱钩：GitHub `1980-X/gitea` 的 `main` 为运维配置，`developer-docs` 为开发者指南。
 
 ## Layout
 
