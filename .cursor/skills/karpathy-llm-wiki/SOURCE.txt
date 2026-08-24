@@ -1,3 +1,0 @@
-source: Astro-Han/karpathy-llm-wiki
-fetched: 2026-08-14T15:53Z
-via: ghfast.top tarball main
