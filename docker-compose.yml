@@ -32,6 +32,17 @@ services:
       GITEA__server__DISABLE_SSH: ${GITEA__server__DISABLE_SSH:-false}
       GITEA__server__SSH_PORT: ${GITEA__server__SSH_PORT:-18622}
       GITEA__server__SSH_LISTEN_PORT: "22"
+      # LAN：放宽 Web 上传 / 附件 / Release（MB）。变量名勿含「.」，否则 compose 插值失败。
+      GITEA__server__LFS_MAX_FILE_SIZE: ${GITEA_LFS_MAX_FILE_SIZE:-0}
+      GITEA__repository.upload__FILE_MAX_SIZE: ${GITEA_UPLOAD_FILE_MAX_SIZE:-102400}
+      GITEA__repository.upload__MAX_FILES: ${GITEA_UPLOAD_MAX_FILES:-500}
+      GITEA__attachment__MAX_SIZE: ${GITEA_ATTACHMENT_MAX_SIZE:-102400}
+      GITEA__attachment__MAX_FILES: ${GITEA_ATTACHMENT_MAX_FILES:-500}
+      GITEA__attachment__ALLOWED_TYPES: ${GITEA_ATTACHMENT_ALLOWED_TYPES:-*/*}
+      GITEA__repository.release__FILE_MAX_SIZE: ${GITEA_RELEASE_FILE_MAX_SIZE:-102400}
+      GITEA__repository.release__MAX_FILES: ${GITEA_RELEASE_MAX_FILES:-100}
+      GITEA__packages__LIMIT_TOTAL_OWNER_SIZE: ${GITEA_PACKAGES_LIMIT_TOTAL_OWNER_SIZE:--1}
+      GITEA__packages__LIMIT_TOTAL_OWNER_COUNT: ${GITEA_PACKAGES_LIMIT_TOTAL_OWNER_COUNT:--1}
     ports:
       - "${GITEA_SSH_PORT:-18622}:22"
     expose:
